@@ -1,0 +1,173 @@
+#define L_PWM 10
+#define L_DIR 16
+#define R_PWM 9
+#define R_DIR 15
+
+# define ML_LS 29
+# define MR_LS 22
+# define L_LS 18
+# define C_LS 20
+# define R_LS 21
+# define Led 17
+# define NB_LS 5
+# define EMIT 11
+
+#define L_LS 18  //SENSORS PIN
+#define C_LS 20
+#define R_LS 21
+
+#define pwm 100
+
+
+volatile boolean lost = false;
+
+unsigned long previousMillis_run = 0;
+const long interval_run = 500;
+unsigned long currentMillis_run;
+unsigned long previousMillis_stop = 0;
+const long interval_stop = 1000;
+unsigned long currentMillis_stop;
+
+
+unsigned long ET_0;
+unsigned long ET_1;
+unsigned long ET_2;
+unsigned long ET_3;
+unsigned long ET_4;
+unsigned long ML_end_time;
+unsigned long L_end_time;
+unsigned long C_end_time;
+unsigned long R_end_time;
+unsigned long MR_end_time;
+int v_pwm = 0;
+
+
+float sensor0;
+float sensor1;
+float sensor2;
+float sensor3;
+float sensor4;
+
+int ls_pin[NB_LS] = {ML_LS, L_LS, C_LS, R_LS, MR_LS};
+
+void setup() {
+  pinMode(11, OUTPUT);
+  pinMode(11, HIGH);
+  Serial.begin(9600);
+
+}
+
+void motordelay() {
+
+  currentMillis_run = millis();
+  currentMillis_stop = millis();
+  digitalWrite(R_DIR, LOW);
+  digitalWrite(L_DIR, LOW);
+
+  if (currentMillis_stop - previousMillis_stop >= interval_stop) {
+    previousMillis_stop = currentMillis_stop;
+    analogWrite(L_PWM, pwm);
+    analogWrite(R_PWM, pwm);
+  }
+
+  else if (currentMillis_run - previousMillis_run >= interval_run) {
+   previousMillis_run = currentMillis_run;
+  }
+  else
+  {
+    
+    analogWrite(L_PWM, 0);
+    analogWrite(R_PWM, 0);
+  }
+  return loop;
+
+
+}
+#define L_PWM 10
+#define L_DIR 16
+#define R_PWM 9
+#define R_DIR 15
+
+# define ML_LS 29
+# define MR_LS 22
+# define L_LS 18
+# define C_LS 20
+# define R_LS 21
+# define Led 17
+# define NB_LS 5
+# define EMIT 11
+
+//LineSensor_c LINESENSOR;
+
+
+#define L_LS 18  //SENSORS PIN
+#define C_LS 20
+#define R_LS 21
+
+#define pwm 100
+
+
+volatile boolean lost = false;
+
+unsigned long previousMillis_run = 0;
+const long interval_run = 500;
+unsigned long currentMillis_run;
+unsigned long previousMillis_stop = 0;
+const long interval_stop = 1000;
+unsigned long currentMillis_stop;
+
+
+unsigned long ET_0;
+unsigned long ET_1;
+unsigned long ET_2;
+unsigned long ET_3;
+unsigned long ET_4;
+unsigned long ML_end_time;
+unsigned long L_end_time;
+unsigned long C_end_time;
+unsigned long R_end_time;
+unsigned long MR_end_time;
+int v_pwm = 0;
+
+
+float sensor0;
+float sensor1;
+float sensor2;
+float sensor3;
+float sensor4;
+
+int ls_pin[NB_LS] = {ML_LS, L_LS, C_LS, R_LS, MR_LS};
+
+void setup() {
+  pinMode(11, OUTPUT);
+  pinMode(11, HIGH);
+  Serial.begin(9600);
+
+}
+
+void motordelay() {
+
+  currentMillis_run = millis();
+  currentMillis_stop = millis();
+  digitalWrite(R_DIR, LOW);
+  digitalWrite(L_DIR, LOW);
+
+  if (currentMillis_stop - previousMillis_stop >= interval_stop) {
+    previousMillis_stop = currentMillis_stop;
+    analogWrite(L_PWM, pwm);
+    analogWrite(R_PWM, pwm);
+  }
+
+  else if (currentMillis_run - previousMillis_run >= interval_run) {
+   previousMillis_run = currentMillis_run;
+  }
+  else
+  {
+    
+    analogWrite(L_PWM, 0);
+    analogWrite(R_PWM, 0);
+  }
+  return loop;
+
+
+}
