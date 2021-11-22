@@ -83,91 +83,85 @@ void motordelay() {
 
 
 }
-#define L_PWM 10
-#define L_DIR 16
-#define R_PWM 9
-#define R_DIR 15
+void loop() {
+  //  Motors_c.movedelay();
+  motordelay();
+  int which;
+  unsigned long start_time;
 
-# define ML_LS 29
-# define MR_LS 22
-# define L_LS 18
-# define C_LS 20
-# define R_LS 21
-# define Led 17
-# define NB_LS 5
-# define EMIT 11
+  pinMode(ML_LS, OUTPUT);
+  pinMode(L_LS, OUTPUT);
+  pinMode(C_LS, OUTPUT);
+  pinMode(R_LS, OUTPUT);
+  pinMode(MR_LS, OUTPUT);
 
-//LineSensor_c LINESENSOR;
+  digitalWrite(ML_LS, HIGH);
+  digitalWrite(L_LS, HIGH);
+  digitalWrite(C_LS, HIGH);
+  digitalWrite(R_LS, HIGH);
+  digitalWrite(MR_LS, HIGH);
+  delayMicroseconds(10);
+
+  pinMode(ML_LS, INPUT);
+  pinMode(L_LS, INPUT);
+  pinMode(C_LS, INPUT);
+  pinMode(R_LS, INPUT);
+  pinMode(MR_LS, INPUT);
+  //  LINESENSOR.initialise(ML_LS, L_LS, C_LS, R_LS, MR_LS);
+  start_time = micros();
+  bool done = false;
+  bool done0 = false;
+  bool done1 = false;
+  bool done2 = false;
+  bool done3 = false;
+  bool done4 = false;
+  unsigned long end_time[NB_LS] = {ML_end_time, L_end_time, C_end_time, R_end_time, ML_end_time};
+  unsigned long vlast[NB_LS] = {ET_0, ET_1, ET_2, ET_3, ET_4};
+  while (done == false)
+    for (which = 0; which < NB_LS; which++) {
+      if (digitalRead(ls_pin[which]) == LOW && vlast[which] == 0 ) {
+        end_time[which] = micros();
+
+        vlast[which] = end_time[which] - start_time;
+        if (which == 0) {
+          done0 = true;
+        }
+        if (which == 1) {
+          done1 = true;
+        }
+        if (which == 2) {
+          done2 = true;
+        }
+        if (which == 3) {
+          done3 = true;
+        }
+        if (which == 4) {
+          done4 = true;
+        }
+        if ((done0 == true) && (done1 == true) && (done2 == true) && (done3 == true) && (done4 == true)) {
+          done = true;
+          //          Serial.print(vlast[0]);
+          //          Serial.print(" ");
+          //          Serial.print(vlast[1]);
+          //          Serial.print(" ");
+          Serial.print(vlast[2]);
+          Serial.print("\n");
+          //          Serial.print(vlast[3]);
+          //          Serial.print(" ");
+          //          Serial.println(vlast[4]);
+
+        }
+      }
 
 
-#define L_LS 18  //SENSORS PIN
-#define C_LS 20
-#define R_LS 21
-
-#define pwm 100
-
-
-volatile boolean lost = false;
-
-unsigned long previousMillis_run = 0;
-const long interval_run = 500;
-unsigned long currentMillis_run;
-unsigned long previousMillis_stop = 0;
-const long interval_stop = 1000;
-unsigned long currentMillis_stop;
+      sensor0 = vlast[0];
+      sensor1 = vlast[1];
+      sensor2 = vlast[2];
+      sensor3 = vlast[3];
+      sensor4 = vlast[4];
+    }
 
 
-unsigned long ET_0;
-unsigned long ET_1;
-unsigned long ET_2;
-unsigned long ET_3;
-unsigned long ET_4;
-unsigned long ML_end_time;
-unsigned long L_end_time;
-unsigned long C_end_time;
-unsigned long R_end_time;
-unsigned long MR_end_time;
-int v_pwm = 0;
-
-
-float sensor0;
-float sensor1;
-float sensor2;
-float sensor3;
-float sensor4;
-
-int ls_pin[NB_LS] = {ML_LS, L_LS, C_LS, R_LS, MR_LS};
-
-void setup() {
-  pinMode(11, OUTPUT);
-  pinMode(11, HIGH);
-  Serial.begin(9600);
-
-}
-
-void motordelay() {
-
-  currentMillis_run = millis();
-  currentMillis_stop = millis();
-  digitalWrite(R_DIR, LOW);
-  digitalWrite(L_DIR, LOW);
-
-  if (currentMillis_stop - previousMillis_stop >= interval_stop) {
-    previousMillis_stop = currentMillis_stop;
-    analogWrite(L_PWM, pwm);
-    analogWrite(R_PWM, pwm);
-  }
-
-  else if (currentMillis_run - previousMillis_run >= interval_run) {
-   previousMillis_run = currentMillis_run;
-  }
-  else
-  {
-    
-    analogWrite(L_PWM, 0);
-    analogWrite(R_PWM, 0);
-  }
-  return loop;
 
 
 }
